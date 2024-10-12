@@ -1,6 +1,16 @@
 name: Deploy
 
-on: [push]
+on: 
+  push:
+    branches: [ master ]
+    tags:
+      - '**'
+    paths-ignore:
+      - 'README.md'
+      - 'docs/**'
+
+on:
+  workflow_dispatch:
 
 jobs:
   build:

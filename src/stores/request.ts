@@ -23,7 +23,6 @@ export const localStorageAtom = atomWithStorage<Array<{
     hostname: string
     port: string
     secret: string
-    protocol: 'http' | 'https'
 }>>('externalControllers', [])
 
 export function useAPIInfo () {
@@ -49,7 +48,7 @@ export function useAPIInfo () {
     const hostname = qs.get('host') ?? localStorage?.[0]?.hostname ?? url?.hostname ?? '127.0.0.1'
     const port = qs.get('port') ?? localStorage?.[0]?.port ?? url?.port ?? '9090'
     const secret = qs.get('secret') ?? localStorage?.[0]?.secret ?? url?.username ?? ''
-    const protocol = qs.get('protocol') ?? localStorage?.[0]?.protocol
+    const protocol = qs.get('protocol') ?? hostname === '127.0.0.1' ? 'http:' : (url?.protocol ?? window.location.protocol)
 
     return { hostname, port, secret, protocol }
 }
@@ -66,13 +65,14 @@ export function useClient () {
         secret,
         protocol,
     } = useAPIInfo()
+
     const [item, setItem] = useAtom(clientAtom)
-    const key = `${protocol}://${hostname}:${port}?secret=${secret}`
+    const key = `${protocol}//${hostname}:${port}?secret=${secret}`
     if (item.key === key) {
         return item.instance!
     }
 
-    const client = new Client(`${protocol}://${hostname}:${port}`, secret)
+    const client = new Client(`${protocol}//${hostname}:${port}`, secret)
     setItem({ key, instance: client })
 
     return client

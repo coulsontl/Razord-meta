@@ -39,7 +39,6 @@ const EN = {
             host: 'Host',
             port: 'Port',
             secret: 'Secret',
-            protocol: 'Protocol',
         },
     },
     Logs: {

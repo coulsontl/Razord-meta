@@ -8,8 +8,6 @@ on:
     paths-ignore:
       - 'README.md'
       - 'docs/**'
-
-on:
   workflow_dispatch:
 
 jobs:

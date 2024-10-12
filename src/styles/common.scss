@@ -10,7 +10,7 @@ html {
 *::after {
     margin: 0;
     padding: 0;
-    border-color: #15222a !important;
+    // border-color: #15222a !important;
     //border-style: hidden !important;
     //box-sizing: inherit;
 
@@ -23,20 +23,20 @@ body {
 
     ::-webkit-scrollbar {
         z-index: 11;
-        background: transparent;
-
-        &-thumb {
-            border-radius: 5px;
-            background: #3b5f76;
-        }
+        background: transparent
     }
-
+    
+    ::-webkit-scrollbar-thumb {
+        border-radius: 5px;
+        background: #2c8af8
+    }
+    
     ::-webkit-scrollbar:vertical {
-        width: 6px;
+        width: 6px
     }
-
+    
     ::-webkit-scrollbar:horizontal {
-        height: 6px;
+        height: 6px
     }
 }
 

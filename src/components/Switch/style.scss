@@ -14,7 +14,7 @@ $width: 32px;
     cursor: pointer;
 
     &.checked {
-        background-color: $color-primary;
+        background-color: #2c8af8;
 
         &::after {
             transform: translateX($width - $switch-radius + $switch-offset);

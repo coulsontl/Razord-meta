@@ -6,8 +6,8 @@
     font-size: 12px;
     padding: 0 12px;
     text-align: center;
-    background-color: #15222a;
-    border: 2px solid #15222a;
-    color: #a2adb5;
-    border-radius: 1px;
+    // background-color: #15222a;
+    border: 2px solid $color-primary;
+    color: $color-primary;
+    border-radius: 12px;
 }

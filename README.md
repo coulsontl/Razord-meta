@@ -52,6 +52,11 @@ $ pnpm start
 ```bash
 $ pnpm build
 ```
+### OpenClash path
+
+```
+cat /usr/share/openclash/openclash_download_dashboard.sh 
+```
 
 ## Contributors
 

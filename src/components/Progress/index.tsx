@@ -8,25 +8,32 @@ interface ProgressProps extends BaseComponentProps {
     subscriptionInfo?: SubscriptionInfo
 }
 
-export function Progress (props: ProgressProps) {
-    const { subscriptionInfo, className: cn, style: s } = props
+export function Progress(props: ProgressProps) {
+    const { subscriptionInfo, className: cn, style: s, ...restProps } = props
     const className = classnames('progress', cn)
     const style: React.CSSProperties = { ...s }
-    const spanProps = { ...props, className, style }
+    
+    const divProps = { 
+        ...restProps, 
+        className, 
+        style 
+    }
 
     const used = subscriptionInfo ? formatBytes(subscriptionInfo?.Download + subscriptionInfo?.Upload) : 0
     const total = subscriptionInfo ? formatBytes(subscriptionInfo.Total) : 0
     const percentage = subscriptionInfo ? (((subscriptionInfo.Download + subscriptionInfo.Upload) / subscriptionInfo.Total) * 100).toFixed(2) : 0
 
     return (
-        <div {...spanProps}>
-            <div className="progress-info" >{used} / {total} ({percentage.toString() + '%'})</div>
-            <div className="progress-fill" style={{ width: (percentage).toString() + '%' }}></div>
-        </div>
+        subscriptionInfo?.Total ?
+            <div {...divProps}>
+                <div className="progress-info">{used} / {total} ({percentage.toString() + '%'})</div>
+                <div className="progress-fill" style={{ width: (percentage).toString() + '%' }}></div>
+            </div>
+            : <></>
     )
 }
 
-function formatBytes (bytes: number, decimals = 2) {
+function formatBytes(bytes: number, decimals = 2) {
     if (bytes) {
         const k = 1024
         const dm = decimals < 0 ? 0 : decimals

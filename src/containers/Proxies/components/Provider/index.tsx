@@ -61,16 +61,16 @@ export function Provider(props: ProvidersProps) {
             return all.slice().sort((a, b) => -1 * compareDesc(a, b));
         }
 
-        const kept = all.filter((p) => {
-            if (unprobeableProxyTypes.has(p.type)) return true;
-            // Never tested is not the same as timed out.
-            if (!p.history?.length) return true;
-            return p.history.slice(-1)[0].delay !== 0;
-        });
-
-        // Hiding everything would leave the provider without a single entry.
-        return (kept.length > 0 ? kept : all)
-            .slice()
+        // Unlike a policy group, a provider card keeps its header, so an empty
+        // list still leaves the name, count and the test/update buttons usable.
+        // Do not fall back to showing everything here.
+        return all
+            .filter((p) => {
+                if (unprobeableProxyTypes.has(p.type)) return true;
+                // Never tested is not the same as timed out.
+                if (!p.history?.length) return true;
+                return p.history.slice(-1)[0].delay !== 0;
+            })
             .sort((a, b) => -1 * compareDesc(a, b));
     }, [provider.proxies, config.hideTimeoutProxies]);
 
@@ -82,9 +82,9 @@ export function Provider(props: ProvidersProps) {
                     <span className="mr-2">{provider.name}</span>
                     <Tag>{provider.vehicleType}</Tag>
                     <Tag className="rule-provider-behavior m-0">
-                        {proxies.length === provider.proxies.length
-                            ? provider.proxies.length
-                            : `${proxies.length} / ${provider.proxies.length}`}
+                        {config.hideTimeoutProxies
+                            ? `${proxies.length} / ${provider.proxies.length}`
+                            : provider.proxies.length}
                     </Tag>
                     {expireStr && (
                         <Tag className="rule-provider-expire m-0">

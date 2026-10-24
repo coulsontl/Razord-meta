@@ -6,7 +6,8 @@ import { Proxy } from "@containers/Proxies/components/Proxy";
 import { fromNow } from "@lib/date";
 import { useVisible } from "@lib/hook";
 import { Provider as IProvider, Proxy as IProxy } from "@lib/request";
-import { useClient, useI18n, useProxyProviders } from "@stores";
+import { useClient, useConfig, useI18n, useProxyProviders } from "@stores";
+import { unprobeableProxyTypes } from "../Group";
 import "./style.scss";
 
 interface ProvidersProps {
@@ -16,6 +17,7 @@ interface ProvidersProps {
 export function Provider(props: ProvidersProps) {
     const { update } = useProxyProviders();
     const { translation, lang } = useI18n();
+    const { data: config } = useConfig();
     const client = useClient();
 
     const { provider } = props;
@@ -54,10 +56,23 @@ export function Provider(props: ProvidersProps) {
     }
 
     const proxies = useMemo(() => {
-        return (provider.proxies as IProxy[])
+        const all = provider.proxies as IProxy[];
+        if (!config.hideTimeoutProxies) {
+            return all.slice().sort((a, b) => -1 * compareDesc(a, b));
+        }
+
+        const kept = all.filter((p) => {
+            if (unprobeableProxyTypes.has(p.type)) return true;
+            // Never tested is not the same as timed out.
+            if (!p.history?.length) return true;
+            return p.history.slice(-1)[0].delay !== 0;
+        });
+
+        // Hiding everything would leave the provider without a single entry.
+        return (kept.length > 0 ? kept : all)
             .slice()
             .sort((a, b) => -1 * compareDesc(a, b));
-    }, [provider.proxies]);
+    }, [provider.proxies, config.hideTimeoutProxies]);
 
     return (
         <Card className="proxy-provider">
@@ -67,7 +82,9 @@ export function Provider(props: ProvidersProps) {
                     <span className="mr-2">{provider.name}</span>
                     <Tag>{provider.vehicleType}</Tag>
                     <Tag className="rule-provider-behavior m-0">
-                        {provider.proxies.length}
+                        {proxies.length === provider.proxies.length
+                            ? provider.proxies.length
+                            : `${proxies.length} / ${provider.proxies.length}`}
                     </Tag>
                     {expireStr && (
                         <Tag className="rule-provider-expire m-0">

@@ -8,7 +8,7 @@ import { useProxy, useConfig, proxyMapping, useClient } from '@stores'
 import './style.scss'
 
 // Adapters whose delay probe always fails, so a timeout says nothing about them.
-const unprobeableProxyTypes = new Set([
+export const unprobeableProxyTypes = new Set([
     'Direct',
     'Reject',
     'RejectDrop',

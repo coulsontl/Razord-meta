@@ -88,6 +88,7 @@ export function useRuleProviders () {
 
 export const configAtom = atomWithStorage('profile', {
     breakConnections: false,
+    hideTimeoutProxies: false,
     logLevel: '',
 })
 

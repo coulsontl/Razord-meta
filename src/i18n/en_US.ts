@@ -127,6 +127,7 @@ const EN = {
         collapseText: 'Collapse',
         speedTestText: 'Speed Test',
         breakConnectionsText: 'Close connections which include the group',
+        hideTimeoutProxiesText: 'Hide timed-out proxies',
     },
     Modal: {
         ok: 'Ok',

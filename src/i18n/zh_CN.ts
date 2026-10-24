@@ -127,6 +127,7 @@ const CN = {
         collapseText: '收起',
         speedTestText: '测速',
         breakConnectionsText: '切换时打断包含策略组的连接',
+        hideTimeoutProxiesText: '隐藏超时代理',
     },
     Modal: {
         ok: '确 定',

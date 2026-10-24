@@ -45,6 +45,12 @@ function ProxyGroups () {
             <div className="flex flex-col">
                 <Header title={t('groupTitle')}>
                     <Checkbox
+                        className="mr-4 cursor-pointer text-sm text-shadow-primary text-[#2c8af8]"
+                        checked={config.hideTimeoutProxies}
+                        onChange={value => setConfig('hideTimeoutProxies', value)}>
+                        {t('hideTimeoutProxiesText')}
+                    </Checkbox>
+                    <Checkbox
                         className="cursor-pointer text-sm text-shadow-primary text-[#2c8af8]"
                         checked={config.breakConnections}
                         onChange={value => setConfig('breakConnections', value)}>
